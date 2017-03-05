@@ -1,2 +1,3 @@
-# leaderboard-crossfitgames-bahia-api
-API for a custom Crossfit Games leaderboard of athletes from Bahia
+# Custom Crossfit Games Leaderboard API
+
+Specific for athletes from Bahia

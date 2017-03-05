@@ -1,0 +1,35 @@
+{
+  "name": "leaderboard-crossfitgames-bahia-api",
+  "version": "1.0.0",
+  "description": "API for a custom Crossfit Games leaderboard of athletes from Bahia",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cristianossd/leaderboard-crossfitgames-bahia-api.git"
+  },
+  "keywords": [
+    "api",
+    "node",
+    "nodejs",
+    "mongo"
+  ],
+  "author": "Cristiano Santos <cristianossd@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cristianossd/leaderboard-crossfitgames-bahia-api/issues"
+  },
+  "homepage": "https://github.com/cristianossd/leaderboard-crossfitgames-bahia-api#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.14.2",
+    "express": "^4.13.3",
+    "http-auth": "^2.4.10",
+    "jsonwebtoken": "^5.7.0",
+    "moment": "^2.11.1",
+    "request": "^2.67.0"
+  }
+}

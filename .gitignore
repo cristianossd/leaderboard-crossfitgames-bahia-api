@@ -1,0 +1,11 @@
+node_modules
+logs
+docs
+npm-debug.log*
+public
+pids
+build
+*.pid
+*.seed
+config/database.json
+newrelic_agent.log
