@@ -4,6 +4,9 @@ var fs = require('fs');
 
 var app = module.exports = express();
 
+var mongoose = require('mongoose');
+mongoose.connect(env.mongoUri);
+
 // parsing request body to JSON
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));

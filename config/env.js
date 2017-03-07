@@ -10,9 +10,12 @@ var _port = process.env.PORT || 8000;
 var root_dir = path.join(__dirname, '..');
 var app_dir = path.join(root_dir, 'app');
 
+var _mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/crossfitgames';
+
 module.exports = {
   env: _env,
   port: _port,
+  mongoUri: _mongoUri,
   tokenSecret: TOKEN_SECRET,
   apiToken: API_TOKEN
 }
