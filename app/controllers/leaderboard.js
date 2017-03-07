@@ -1,4 +1,5 @@
 var request = require('request');
+var async = require('async');
 var Athlete = require('../models/athlete');
 var URL = 'https://games.crossfit.com/competitions/api/v1/competitions/open/2017/leaderboards?affiliate=';
 
@@ -43,6 +44,114 @@ module.exports.syncAthletes = function(req, res, next) {
   res.sendStatus(200);
 };
 
+module.exports.createRanking = function(req, res, next) {
+  /* Men wod1 */
+  Athlete.find({sex: 'm'}).sort({wod1Score: -1}).exec(function(err, athletes) {
+    if (err) console.log(err);
+
+    var pos = 1, next = 1, prev = 0;
+    async.eachSeries(athletes, function(athlete, callback) {
+      var rank = pos;
+
+      if (athlete.wod1Score == prev) {
+        next++;
+      } else {
+        next++;
+        pos = next;
+      }
+
+      prev = athlete.wod1Score;
+
+      Athlete.update({id: athlete.id}, {$set: {wod1Rank: rank}}, function(err, result) {
+        if (err) console.log(err);
+
+        console.log('Updated rank of ' + athlete.name);
+        callback();
+      });
+    });
+  });
+
+  /* Men wod2 */
+  Athlete.find({sex: 'm'}).sort({wod2Score: -1}).exec(function(err, athletes) {
+    if (err) console.log(err);
+
+    var pos = 1, next = 1, prev = 0;
+    async.eachSeries(athletes, function(athlete, callback) {
+      var rank = pos;
+
+      if (athlete.wod2Score == prev) {
+        next++;
+      } else {
+        next++;
+        pos = next;
+      }
+
+      prev = athlete.wod2Score;
+
+      Athlete.update({id: athlete.id}, {$set: {wod2Rank: rank}}, function(err, result) {
+        if (err) console.log(err);
+
+        console.log('Updated rank of ' + athlete.name);
+        callback();
+      });
+    });
+  });
+
+  /* Women wod1 */
+  Athlete.find({sex: 'f'}).sort({wod1Score: -1}).exec(function(err, athletes) {
+    if (err) console.log(err);
+
+    var pos = 1, next = 1, prev = 0;
+    async.eachSeries(athletes, function(athlete, callback) {
+      var rank = pos;
+
+      if (athlete.wod1Score == prev) {
+        next++;
+      } else {
+        next++;
+        pos = next;
+      }
+
+      prev = athlete.wod1Score;
+
+      Athlete.update({id: athlete.id}, {$set: {wod1Rank: rank}}, function(err, result) {
+        if (err) console.log(err);
+
+        console.log('Updated rank of ' + athlete.name);
+        callback();
+      });
+    });
+  });
+
+  /* Women wod2 */
+  Athlete.find({sex: 'f'}).sort({wod2Score: -1}).exec(function(err, athletes) {
+    if (err) console.log(err);
+
+    var pos = 1, next = 1, prev = 0;
+    async.eachSeries(athletes, function(athlete, callback) {
+      var rank = pos;
+
+      if (athlete.wod2Score == prev) {
+        next++;
+      } else {
+        next++;
+        pos = next;
+      }
+
+      prev = athlete.wod2Score;
+
+      Athlete.update({id: athlete.id}, {$set: {wod2Rank: rank}}, function(err, result) {
+        if (err) console.log(err);
+
+        console.log('Updated rank of ' + athlete.name);
+        callback();
+      });
+    });
+  });
+
+  res.sendStatus(200);
+};
+
 /* protected */
 
 function createAthlete(athlete, affiliate) {
@@ -81,7 +190,7 @@ function getScoreWithTimeCap(score, limit) {
     finalScore = Number(score.replace(' reps', ''));
   } else {
     var time = score.split(':');
-    finalScore = Number(time[0] * 60) + Number(time[1]) + limit;
+    finalScore = 9999/(Number(time[0] * 60) + Number(time[1])) + limit;
   }
 
   return finalScore;

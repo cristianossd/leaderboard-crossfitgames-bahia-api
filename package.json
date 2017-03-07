@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/cristianossd/leaderboard-crossfitgames-bahia-api#readme",
   "dependencies": {
+    "async": "^2.1.5",
     "bcrypt": "^0.8.5",
     "body-parser": "^1.14.2",
     "express": "^4.13.3",
