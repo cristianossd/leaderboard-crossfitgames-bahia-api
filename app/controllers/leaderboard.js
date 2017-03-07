@@ -1,8 +1,9 @@
 var request = require('request');
 var async = require('async');
+var fs = require('fs');
 var Athlete = require('../models/athlete');
-var URL = 'https://games.crossfit.com/competitions/api/v1/competitions/open/2017/leaderboards?affiliate=';
 
+var URL = 'https://games.crossfit.com/competitions/api/v1/competitions/open/2017/leaderboards?affiliate=';
 var affiliates = [
   {"id": "5923", "name": "CrossFit Mandacaru", "country": "Brazil", "region": "Latin America", "city": "Salvador", "state": "Bahia"},
   {"id": "7442", "name": "CrossFit Jequie", "country": "Brazil", "region": "Latin America", "city": "Jequi\u00e9", "state": "Bahia"},
@@ -152,6 +153,30 @@ module.exports.createRanking = function(req, res, next) {
   res.sendStatus(200);
 };
 
+module.exports.get = function(req, res, next) {
+  Athlete.find().exec(function(err, athletes) {
+    athletes.forEach((athlete, index) => {
+      athlete.overallScore = athlete.wod1Rank + athlete.wod2Rank;
+
+      if (athlete.overallScore == undefined) {
+        console.log(athlete);
+      }
+
+      athlete.save(function(err, updatedAthlete) {
+        if (err) console.log(err);
+
+        console.log('Overall score updated for ' + updatedAthlete.name);
+      });
+
+      if (index == athletes.length - 1) {
+        generateJSON();
+      }
+    });
+  });
+
+  res.sendStatus(200);
+};
+
 /* protected */
 
 function createAthlete(athlete, affiliate) {
@@ -199,7 +224,7 @@ function getScoreWithTimeCap(score, limit) {
 function getSex(code) {
   if (code == '1' || code == '18')
     return 'm';
-  if (code == '2')
+  if (code == '2' || code == '13' || code == '19')
     return 'f';
 }
 
@@ -213,4 +238,22 @@ function isScale(athlete) {
   });
 
   return counter > 0;
+}
+
+function generateJSON() {
+  var attrs = {name: 1, affiliate: 1, overallScore: 1, wod1Display: 1, wod2Display: 1};
+
+  Athlete.find({sex: 'm'}, attrs).sort({overallScore: 1}).exec(function(err, athletes) {
+    var json = JSON.stringify(athletes);
+    fs.writeFile('men_leaderboard.json', json, 'utf-8', function(err) {
+      if (err) throw err;
+    });
+  });
+
+  Athlete.find({sex: 'f'}, attrs).sort({overallScore: 1}).exec(function(err, athletes) {
+    var json = JSON.stringify(athletes);
+    fs.writeFile('women_leaderboard.json', json, 'utf-8', function(err) {
+      if (err) throw err;
+    });
+  });
 }
