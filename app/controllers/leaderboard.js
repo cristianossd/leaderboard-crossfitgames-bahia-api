@@ -241,7 +241,15 @@ function isScale(athlete) {
 }
 
 function generateJSON() {
-  var attrs = {name: 1, affiliate: 1, overallScore: 1, wod1Display: 1, wod2Display: 1};
+  var attrs = {
+    name: 1,
+    affiliate: 1,
+    overallScore: 1,
+    wod1Display: 1,
+    wod1Rank: 1,
+    wod2Display: 1,
+    wod2Rank: 1
+  };
 
   Athlete.find({sex: 'm'}, attrs).sort({overallScore: 1}).exec(function(err, athletes) {
     var json = JSON.stringify(athletes);
