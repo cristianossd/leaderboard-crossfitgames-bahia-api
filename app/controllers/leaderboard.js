@@ -5,7 +5,7 @@ var Athlete = require('../models/athlete');
 
 var URL = 'https://games.crossfit.com/competitions/api/v1/competitions/open/2017/leaderboards?affiliate=';
 
-var affiliates = JSON.parse(fs.readFileSync('bahia_affiliates.json', 'utf8'));
+var affiliates = JSON.parse(fs.readFileSync('data/affiliates.json', 'utf8'));
 
 module.exports.syncAthletes = function(req, res, next) {
   affiliates.forEach(affiliate => {
