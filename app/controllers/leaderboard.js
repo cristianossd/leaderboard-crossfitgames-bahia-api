@@ -16,8 +16,8 @@ module.exports.syncAthletes = function(req, res, next) {
         athletes.forEach((athlete) => {
           if (!isScale(athlete))
             createAthlete(athlete, affiliate);
-          else
-            console.log('Scaled: ' + athlete.name);
+          // else
+          //   console.log('Scaled: ' + athlete.name);
         });
       }
     });
@@ -28,21 +28,23 @@ module.exports.syncAthletes = function(req, res, next) {
 
 module.exports.createRanking = function(req, res, next) {
   /* Men wod1 */
-  Athlete.find({sex: 'm'}).sort({wod1Score: -1}).exec(function(err, athletes) {
+  Athlete.find({sex: 'm'}).sort({wod1Score: -1, wod1TieBreak: 1}).exec(function(err, athletes) {
     if (err) console.log(err);
 
-    var pos = 1, next = 1, prev = 0;
+    var pos = 1, next = 1, prev = 0, prevTieBreak = 0, prevRank = 1;
     async.eachSeries(athletes, function(athlete, callback) {
       var rank = pos;
 
-      if (athlete.wod1Score == prev) {
-        next++;
+      if (athlete.wod1Score == prev && athlete.wod1TieBreak == prevTieBreak) {
+        rank = prevRank;
       } else {
         next++;
+        prevRank = pos;
         pos = next;
       }
 
       prev = athlete.wod1Score;
+      prevTieBreak = athlete.wod1TieBreak;
 
       Athlete.update({id: athlete.id}, {$set: {wod1Rank: rank}}, function(err, result) {
         if (err) console.log(err);
@@ -54,21 +56,23 @@ module.exports.createRanking = function(req, res, next) {
   });
 
   /* Men wod2 */
-  Athlete.find({sex: 'm'}).sort({wod2Score: -1}).exec(function(err, athletes) {
+  Athlete.find({sex: 'm'}).sort({wod2Score: -1, wod2TieBreak: 1}).exec(function(err, athletes) {
     if (err) console.log(err);
 
-    var pos = 1, next = 1, prev = 0;
+    var pos = 1, next = 1, prev = 0, prevTieBreak = 0, prevRank = 1;
     async.eachSeries(athletes, function(athlete, callback) {
       var rank = pos;
 
-      if (athlete.wod2Score == prev) {
-        next++;
+      if (athlete.wod2Score == prev && athlete.wod2TieBreak == prevTieBreak) {
+        rank = prevRank;
       } else {
         next++;
+        prevRank = pos;
         pos = next;
       }
 
       prev = athlete.wod2Score;
+      prevTieBreak = athlete.wod2TieBreak;
 
       Athlete.update({id: athlete.id}, {$set: {wod2Rank: rank}}, function(err, result) {
         if (err) console.log(err);
@@ -79,22 +83,24 @@ module.exports.createRanking = function(req, res, next) {
     });
   });
 
-  /* Men wod3 */
-  Athlete.find({sex: 'm'}).sort({wod3Score: -1}).exec(function(err, athletes) {
+  // /* Men wod3 */
+  Athlete.find({sex: 'm'}).sort({wod3Score: -1, wod3TieBreak: 1}).exec(function(err, athletes) {
     if (err) console.log(err);
 
-    var pos = 1, next = 1, prev = 0;
+    var pos = 1, next = 1, prev = 0, prevTieBreak = 0, prevRank = 1;
     async.eachSeries(athletes, function(athlete, callback) {
       var rank = pos;
 
-      if (athlete.wod3Score == prev) {
-        next++;
+      if (athlete.wod3Score == prev && athlete.wod3TieBreak == prevTieBreak) {
+        rank = prevRank;
       } else {
         next++;
+        prevRank = pos;
         pos = next;
       }
 
       prev = athlete.wod3Score;
+      prevTieBreak = athlete.wod3TieBreak;
 
       Athlete.update({id: athlete.id}, {$set: {wod3Rank: rank}}, function(err, result) {
         if (err) console.log(err);
@@ -106,21 +112,23 @@ module.exports.createRanking = function(req, res, next) {
   });
 
   /* Women wod1 */
-  Athlete.find({sex: 'f'}).sort({wod1Score: -1}).exec(function(err, athletes) {
+  Athlete.find({sex: 'f'}).sort({wod1Score: -1, wod1TieBreak: 1}).exec(function(err, athletes) {
     if (err) console.log(err);
 
-    var pos = 1, next = 1, prev = 0;
+    var pos = 1, next = 1, prev = 0, prevTieBreak = 0, prevRank = 1;
     async.eachSeries(athletes, function(athlete, callback) {
       var rank = pos;
 
-      if (athlete.wod1Score == prev) {
-        next++;
+      if (athlete.wod1Score == prev && athlete.wod1TieBreak == prevTieBreak) {
+        rank = prevRank;
       } else {
         next++;
+        prevRank = pos;
         pos = next;
       }
 
       prev = athlete.wod1Score;
+      prevTieBreak = athlete.wod1TieBreak;
 
       Athlete.update({id: athlete.id}, {$set: {wod1Rank: rank}}, function(err, result) {
         if (err) console.log(err);
@@ -132,21 +140,23 @@ module.exports.createRanking = function(req, res, next) {
   });
 
   /* Women wod2 */
-  Athlete.find({sex: 'f'}).sort({wod2Score: -1}).exec(function(err, athletes) {
+  Athlete.find({sex: 'f'}).sort({wod2Score: -1, wod2TieBreak: 1}).exec(function(err, athletes) {
     if (err) console.log(err);
 
-    var pos = 1, next = 1, prev = 0;
+    var pos = 1, next = 1, prev = 0, prevTieBreak = 0, prevRank = 1;
     async.eachSeries(athletes, function(athlete, callback) {
       var rank = pos;
 
-      if (athlete.wod2Score == prev) {
-        next++;
+      if (athlete.wod2Score == prev && athlete.wod2TieBreak == prevTieBreak) {
+        rank = prevRank;
       } else {
         next++;
+        prevRank = pos;
         pos = next;
       }
 
       prev = athlete.wod2Score;
+      prevTieBreak = athlete.wod2TieBreak;
 
       Athlete.update({id: athlete.id}, {$set: {wod2Rank: rank}}, function(err, result) {
         if (err) console.log(err);
@@ -158,21 +168,23 @@ module.exports.createRanking = function(req, res, next) {
   });
 
   /* Women wod3 */
-  Athlete.find({sex: 'f'}).sort({wod3Score: -1}).exec(function(err, athletes) {
+  Athlete.find({sex: 'f'}).sort({wod3Score: -1, wod3TieBreak: 1}).exec(function(err, athletes) {
     if (err) console.log(err);
 
-    var pos = 1, next = 1, prev = 0;
+    var pos = 1, next = 1, prev = 0, prevTieBreak = 0, prevRank = 1;
     async.eachSeries(athletes, function(athlete, callback) {
       var rank = pos;
 
-      if (athlete.wod3Score == prev) {
-        next++;
+      if (athlete.wod3Score == prev && athlete.wod3TieBreak == prevTieBreak) {
+        rank = prevRank;
       } else {
         next++;
+        prevRank = pos;
         pos = next;
       }
 
       prev = athlete.wod3Score;
+      prevTieBreak = athlete.wod3TieBreak;
 
       Athlete.update({id: athlete.id}, {$set: {wod3Rank: rank}}, function(err, result) {
         if (err) console.log(err);
@@ -214,16 +226,20 @@ module.exports.generate = function(req, res, next) {
 /* protected */
 
 function createAthlete(athlete, affiliate) {
+
   var _sex = getSex(athlete.divisionid);
 
   var _wod1Display = athlete.scores[0].scoredisplay;
   var _wod1Score = getScoreWithTimeCap(athlete.scores[0].scoredisplay, 225);
+  var _tieBrealWod1 = (athlete.scores[0].scoredetails) ? athlete.scores[0].scoredetails.time : null;
 
   var _wod2Display = athlete.scores[1].scoredisplay;
   var _wod2Score = Number(athlete.scores[1].scoredisplay.replace(' reps', ''));
+  var _tieBrealWod2 = (athlete.scores[1].scoredetails) ? athlete.scores[1].scoredetails.time : null;
 
   var _wod3Display = athlete.scores[2].scoredisplay;
   var _wod3Score = Number(athlete.scores[2].scoredisplay.replace(' reps', ''));
+  var _tieBrealWod3 = (athlete.scores[2].scoredetails) ? athlete.scores[2].scoredetails.time : null;
 
   var newAthlete = new Athlete({
     id: athlete.userid,
@@ -232,10 +248,13 @@ function createAthlete(athlete, affiliate) {
     sex: _sex,
     wod1Display: _wod1Display,
     wod1Score: _wod1Score,
+    wod1TieBreak: _tieBrealWod1,
     wod2Display: _wod2Display,
     wod2Score: _wod2Score,
+    wod2TieBreak: _tieBrealWod2,
     wod3Display: _wod3Display,
-    wod3Score: _wod3Score
+    wod3Score: _wod3Score,
+    wod3TieBreak: _tieBrealWod3
   });
 
   newAthlete.save(function(err, athleteResult) {
