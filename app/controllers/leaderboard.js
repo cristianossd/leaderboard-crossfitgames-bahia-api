@@ -219,13 +219,14 @@ module.exports.get = function(req, res, next) {
 
         console.log('Overall score updated for ' + updatedAthlete.name);
       });
-
-      if (index == athletes.length - 1) {
-        generateJSON();
-      }
     });
   });
 
+  res.sendStatus(200);
+};
+
+module.exports.generate = function(req, res, next) {
+  generateJSON();
   res.sendStatus(200);
 };
 
