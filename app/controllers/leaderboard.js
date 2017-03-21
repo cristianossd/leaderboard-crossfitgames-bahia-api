@@ -16,8 +16,6 @@ module.exports.syncAthletes = function(req, res, next) {
         athletes.forEach((athlete) => {
           if (!isScale(athlete))
             createAthlete(athlete, affiliate);
-          // else
-          //   console.log('Scaled: ' + athlete.name);
         });
       }
     });
@@ -111,6 +109,34 @@ module.exports.createRanking = function(req, res, next) {
     });
   });
 
+  // /* Men wod4 */
+  Athlete.find({sex: 'm'}).sort({wod4Score: -1, wod4TieBreak: 1}).exec(function(err, athletes) {
+    if (err) console.log(err);
+
+    var pos = 1, next = 1, prev = 0, prevTieBreak = 0, prevRank = 1;
+    async.eachSeries(athletes, function(athlete, callback) {
+      var rank = pos;
+
+      if (athlete.wod4Score == prev && athlete.wod4TieBreak == prevTieBreak) {
+        rank = prevRank;
+      } else {
+        next++;
+        prevRank = pos;
+        pos = next;
+      }
+
+      prev = athlete.wod4Score;
+      prevTieBreak = athlete.wod4TieBreak;
+
+      Athlete.update({id: athlete.id}, {$set: {wod4Rank: rank}}, function(err, result) {
+        if (err) console.log(err);
+
+        console.log('Updated rank of ' + athlete.name);
+        callback();
+      });
+    });
+  });
+
   /* Women wod1 */
   Athlete.find({sex: 'f'}).sort({wod1Score: -1, wod1TieBreak: 1}).exec(function(err, athletes) {
     if (err) console.log(err);
@@ -195,13 +221,41 @@ module.exports.createRanking = function(req, res, next) {
     });
   });
 
+  /* Women wod4 */
+  Athlete.find({sex: 'f'}).sort({wod4Score: -1, wod4TieBreak: 1}).exec(function(err, athletes) {
+    if (err) console.log(err);
+
+    var pos = 1, next = 1, prev = 0, prevTieBreak = 0, prevRank = 1;
+    async.eachSeries(athletes, function(athlete, callback) {
+      var rank = pos;
+
+      if (athlete.wod4Score == prev && athlete.wod4TieBreak == prevTieBreak) {
+        rank = prevRank;
+      } else {
+        next++;
+        prevRank = pos;
+        pos = next;
+      }
+
+      prev = athlete.wod4Score;
+      prevTieBreak = athlete.wod4TieBreak;
+
+      Athlete.update({id: athlete.id}, {$set: {wod4Rank: rank}}, function(err, result) {
+        if (err) console.log(err);
+
+        console.log('Updated rank of ' + athlete.name);
+        callback();
+      });
+    });
+  });
+
   res.sendStatus(200);
 };
 
 module.exports.get = function(req, res, next) {
   Athlete.find().exec(function(err, athletes) {
     athletes.forEach((athlete, index) => {
-      athlete.overallScore = athlete.wod1Rank + athlete.wod2Rank + athlete.wod3Rank;
+      athlete.overallScore = athlete.wod1Rank + athlete.wod2Rank + athlete.wod3Rank + athlete.wod4Rank;
 
       if (athlete.overallScore == undefined) {
         console.log(athlete);
@@ -241,6 +295,10 @@ function createAthlete(athlete, affiliate) {
   var _wod3Score = Number(athlete.scores[2].scoredisplay.replace(' reps', ''));
   var _tieBrealWod3 = (athlete.scores[2].scoredetails) ? athlete.scores[2].scoredetails.time : null;
 
+  var _wod4Display = athlete.scores[3].scoredisplay;
+  var _wod4Score = Number(athlete.scores[3].scoredisplay.replace(' reps', ''));
+  var _tieBrealWod4 = (athlete.scores[3].scoredetails) ? athlete.scores[3].scoredetails.time : null;
+
   var newAthlete = new Athlete({
     id: athlete.userid,
     name: athlete.name,
@@ -254,7 +312,10 @@ function createAthlete(athlete, affiliate) {
     wod2TieBreak: _tieBrealWod2,
     wod3Display: _wod3Display,
     wod3Score: _wod3Score,
-    wod3TieBreak: _tieBrealWod3
+    wod3TieBreak: _tieBrealWod3,
+    wod4Display: _wod4Display,
+    wod4Score: _wod4Score,
+    wod4TieBreak: _tieBrealWod4
   });
 
   newAthlete.save(function(err, athleteResult) {
@@ -308,7 +369,9 @@ function generateJSON() {
     wod2Display: 1,
     wod2Rank: 1,
     wod3Display: 1,
-    wod3Rank: 1
+    wod3Rank: 1,
+    wod4Display: 1,
+    wod4Rank: 1
   };
 
   Athlete.find({sex: 'm'}, attrs).sort({overallScore: 1}).exec(function(err, athletes) {

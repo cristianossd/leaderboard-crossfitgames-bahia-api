@@ -23,9 +23,11 @@ var AthleteSchema = new Schema({
   wod4Display: String,
   wod4Score: Number,
   wod4Rank: Number,
+  wod4TieBreak: Number,
   wod5Display: String,
   wod5Score: Number,
-  wod5Rank: Number
+  wod5Rank: Number,
+  wod5TieBreak: Number
 });
 
 AthleteSchema.plugin(findOrCreate);
