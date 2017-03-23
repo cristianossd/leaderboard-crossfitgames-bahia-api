@@ -26,68 +26,76 @@ module.exports.syncAthletes = function(req, res, next) {
 module.exports.createRanking = function(req, res, next) {
 
   /* Men wod1 */
-  saveAthletesResults(
-    {sex: 'm', 'wod1IsScale': false, 'wod1TieBreak': {$ne:null}},
-    {sex: 'm', 'wod1IsScale': true, 'wod1TieBreak': {$ne:null}},
-    {sex: 'm', 'wod1TieBreak': null},
-    {'wod1Score': -1, 'wod1TieBreak': 1},
-    'wod1Score', 'wod1TieBreak', 'wod1Rank');
+  createAthleteRank({
+    rx: {sex: 'm', wod1IsScale: false, wod1TieBreak: {$ne:null}},
+    scale: {sex: 'm', wod1IsScale: true, wod1TieBreak: {$ne:null}},
+    not_performed: {sex: 'm', wod1TieBreak: null},
+    sort: {wod1Score: -1, wod1TieBreak: 1},
+    score: 'wod1Score', tiebreak: 'wod1TieBreak', rank: 'wod1Rank'
+  });
 
   /* Men wod2 */
-  saveAthletesResults(
-    {sex: 'm', 'wod2IsScale': false, 'wod2TieBreak': {$ne:null}},
-    {sex: 'm', 'wod2IsScale': true, 'wod2TieBreak': {$ne:null}},
-    {sex: 'm', 'wod2TieBreak': null},
-    {'wod2Score': -1, 'wod2TieBreak': 1},
-    'wod2Score', 'wod2TieBreak', 'wod2Rank');
+  createAthleteRank({
+    rx: {sex: 'm', wod2IsScale: false, wod2TieBreak: {$ne:null}},
+    scale: {sex: 'm', wod2IsScale: true, wod2TieBreak: {$ne:null}},
+    not_performed: {sex: 'm', wod2TieBreak: null},
+    sort: {wod2Score: -1, wod2TieBreak: 1},
+    score: 'wod2Score', tiebreak: 'wod2TieBreak', rank: 'wod2Rank'
+  });
 
   /* Men wod3 */
-  saveAthletesResults(
-    {sex: 'm', 'wod3IsScale': false, 'wod3TieBreak': {$ne:null}},
-    {sex: 'm', 'wod3IsScale': true, 'wod3TieBreak': {$ne:null}},
-    {sex: 'm', 'wod3TieBreak': null},
-    {'wod3Score': -1, 'wod3TieBreak': 1},
-    'wod3Score', 'wod3TieBreak', 'wod3Rank');
+  createAthleteRank({
+    rx: {sex: 'm', wod3IsScale: false, wod3TieBreak: {$ne:null}},
+    scale: {sex: 'm', wod3IsScale: true, wod3TieBreak: {$ne:null}},
+    not_performed: {sex: 'm', wod3TieBreak: null},
+    sort: {wod3Score: -1, wod3TieBreak: 1},
+    score: 'wod3Score', tiebreak: 'wod3TieBreak', rank: 'wod3Rank'
+  });
 
   /* Men wod4 */
-  saveAthletesResults(
-    {sex: 'm', 'wod4IsScale': false, 'wod4TieBreak': {$ne:null}},
-    {sex: 'm', 'wod4IsScale': true, 'wod4TieBreak': {$ne:null}},
-    {sex: 'm', 'wod4TieBreak': null},
-    {'wod4Score': -1, 'wod4TieBreak': 1},
-    'wod4Score', 'wod4TieBreak', 'wod4Rank');
+  createAthleteRank({
+    rx: {sex: 'm', wod4IsScale: false, wod4TieBreak: {$ne:null}},
+    scale: {sex: 'm', wod4IsScale: true, wod4TieBreak: {$ne:null}},
+    not_performed: {sex: 'm', wod4TieBreak: null},
+    sort: {wod4Score: -1, wod4TieBreak: 1},
+    score: 'wod4Score', tiebreak: 'wod4TieBreak', rank: 'wod4Rank'
+  });
 
   /* Women wod1 */
-  saveAthletesResults(
-    {sex: 'f', 'wod1IsScale': false, 'wod1TieBreak': {$ne:null}},
-    {sex: 'f', 'wod1IsScale': true, 'wod1TieBreak': {$ne:null}},
-    {sex: 'f', 'wod1TieBreak': null},
-    {'wod1Score': -1, 'wod1TieBreak': 1},
-    'wod1Score', 'wod1TieBreak', 'wod1Rank');
+  createAthleteRank({
+    rx: {sex: 'f', wod1IsScale: false, wod1TieBreak: {$ne:null}},
+    scale: {sex: 'f', wod1IsScale: true, wod1TieBreak: {$ne:null}},
+    not_performed: {sex: 'f', wod1TieBreak: null},
+    sort: {wod1Score: -1, wod1TieBreak: 1},
+    score: 'wod1Score', tiebreak: 'wod1TieBreak', rank: 'wod1Rank'
+  });
 
   /* Women wod2 */
-  saveAthletesResults(
-    {sex: 'f', 'wod2IsScale': false, 'wod2TieBreak': {$ne:null}},
-    {sex: 'f', 'wod2IsScale': true, 'wod2TieBreak': {$ne:null}},
-    {sex: 'f', 'wod2TieBreak': null},
-    {'wod2Score': -1, 'wod2TieBreak': 1},
-    'wod2Score', 'wod2TieBreak', 'wod2Rank');
+  createAthleteRank({
+    rx: {sex: 'f', wod2IsScale: false, wod2TieBreak: {$ne:null}},
+    scale: {sex: 'f', wod2IsScale: true, wod2TieBreak: {$ne:null}},
+    not_performed: {sex: 'f', wod2TieBreak: null},
+    sort: {wod2Score: -1, wod2TieBreak: 1},
+    score: 'wod2Score', tiebreak: 'wod2TieBreak', rank: 'wod2Rank'
+  });
 
   /* Women wod3 */
-  saveAthletesResults(
-    {sex: 'f', 'wod3IsScale': false, 'wod3TieBreak': {$ne:null}},
-    {sex: 'f', 'wod3IsScale': true, 'wod3TieBreak': {$ne:null}},
-    {sex: 'f', 'wod3TieBreak': null},
-    {'wod3Score': -1, 'wod3TieBreak': 1},
-    'wod3Score', 'wod3TieBreak', 'wod3Rank');
+  createAthleteRank({
+    rx: {sex: 'f', wod3IsScale: false, wod3TieBreak: {$ne:null}},
+    scale: {sex: 'f', wod3IsScale: true, wod3TieBreak: {$ne:null}},
+    not_performed: {sex: 'f', wod3TieBreak: null},
+    sort: {wod3Score: -1, wod3TieBreak: 1},
+    score: 'wod3Score', tiebreak: 'wod3TieBreak', rank: 'wod3Rank'
+  });
 
   /* Women wod4 */
-  saveAthletesResults(
-    {sex: 'f', 'wod4IsScale': false, 'wod4TieBreak': {$ne:null}},
-    {sex: 'f', 'wod4IsScale': true, 'wod4TieBreak': {$ne:null}},
-    {sex: 'f', 'wod4TieBreak': null},
-    {'wod4Score': -1, 'wod4TieBreak': 1},
-    'wod4Score', 'wod4TieBreak', 'wod4Rank');
+  createAthleteRank({
+    rx: {sex: 'f', wod4IsScale: false, wod4TieBreak: {$ne:null}},
+    scale: {sex: 'f', wod4IsScale: true, wod4TieBreak: {$ne:null}},
+    not_performed: {sex: 'f', wod4TieBreak: null},
+    sort: {wod4Score: -1, wod4TieBreak: 1},
+    score: 'wod4Score', tiebreak: 'wod4TieBreak', rank: 'wod4Rank'
+  });
 
   res.sendStatus(200);
 };
@@ -125,51 +133,67 @@ module.exports.generate = function(req, res, next) {
 
 /* protected */
 
-function saveAthletesResults(rx, scale, not_performed, sort, score, tiebreak, rank) {
+function createAthleteRank(paramObj) {
   var allAthletes = [];
 
-  Athlete.find(rx).sort(sort).exec(function(err, athletes) {
+  return getAthletesRX(allAthletes, paramObj);
+}
+
+function getAthletesRX(allAthletes, paramObj) {
+  Athlete.find(paramObj.rx).sort(paramObj.sort).exec(function (err, athletes) {
     if (err) console.log(err);
 
     allAthletes = allAthletes.concat(athletes);
-  }).then(function() {
-    Athlete.find(scale).sort(sort).exec(function(err, athletes) {
+
+    return getAthletesScale(allAthletes, paramObj);
+  });
+}
+
+function getAthletesScale(allAthletes, paramObj) {
+  Athlete.find(paramObj.scale).sort(paramObj.sort).exec(function (err, athletes) {
+    if (err) console.log(err);
+
+    allAthletes = allAthletes.concat(athletes);
+
+    return getAthletesNotPerfomed(allAthletes, paramObj);
+  });
+}
+
+function getAthletesNotPerfomed(allAthletes, paramObj) {
+  Athlete.find(paramObj.not_performed).sort(paramObj.sort).exec(function(err, athletes) {
+    if (err) console.log(err);
+
+    allAthletes = allAthletes.concat(athletes);
+
+    return saveResults(allAthletes, paramObj);
+  });
+}
+
+function saveResults(allAthletes, paramObj) {
+  var pos = 1, next = 1, prev = 0, prevTieBreak = 0, prevRank = 1;
+  async.eachSeries(allAthletes, function(athlete, callback) {
+    var newRank = pos;
+    var rankObj = {};
+
+    if (athlete[paramObj.score] == prev && athlete[paramObj.tiebreak] == prevTieBreak) {
+      newRank = prevRank;
+    } else {
+      next++;
+      prevRank = pos;
+      pos = next;
+    }
+
+    prev = athlete[paramObj.score];
+    prevTieBreak = athlete[paramObj.tiebreak];
+
+    rankObj[paramObj.rank] = newRank;
+
+    Athlete.update({id: athlete.id}, {$set: rankObj}, function(err, result) {
       if (err) console.log(err);
 
-      allAthletes = allAthletes.concat(athletes);
-    }).then(function() {
-      Athlete.find(not_performed).sort(sort).exec(function(err, athletes) {
-        if (err) console.log(err);
-
-        allAthletes = allAthletes.concat(athletes);
-
-        var pos = 1, next = 1, prev = 0, prevTieBreak = 0, prevRank = 1;
-        async.eachSeries(allAthletes, function(athlete, callback) {
-          var newRank = pos;
-          var rankObj = {};
-
-          if (athlete[score] == prev && athlete[tiebreak] == prevTieBreak) {
-            newRank = prevRank;
-          } else {
-            next++;
-            prevRank = pos;
-            pos = next;
-          }
-
-          prev = athlete[score];
-          prevTieBreak = athlete[tiebreak];
-
-          rankObj[rank] = newRank;
-
-          Athlete.update({id: athlete.id}, {$set: rankObj}, function(err, result) {
-            if (err) console.log(err);
-
-            console.log('Updated rank of ' + athlete.name);
-            console.log('New rank: ' + athlete[rank]);
-            callback();
-          });
-        });
-      });
+      console.log('Updated rank of ' + athlete.name);
+      console.log('New rank: ' + athlete[paramObj.rank]);
+      callback();
     });
   });
 }
@@ -179,24 +203,32 @@ function createAthlete(athlete, affiliate) {
   var _sex = getSex(athlete.divisionid, athlete.userid);
 
   var _wod1Display = athlete.scores[0].scoredisplay;
-  var _wod1Score = getScoreWithTimeCap(athlete.scores[0].scoredisplay, 225);
+  var _wod1Score = getScoreWithTimeCap(_wod1Display, 225);
   var _wod1TieBreak = (athlete.scores[0].scoredetails) ? athlete.scores[0].scoredetails.time : null;
-  var _wod1IsScale = Boolean(athlete.scores[0].scoredisplay.indexOf('- s') != -1);
+  var _wod1IsScale = Boolean(_wod1Display.indexOf('- s') != -1);
 
   var _wod2Display = athlete.scores[1].scoredisplay;
-  var _wod2Score = Number(athlete.scores[1].scoredisplay.replace(' reps', '').replace(' - s', ''));
+  var _wod2Score = Number(_wod2Display.replace(' reps', '').replace(' - s', ''));
   var _wod2TieBreak = (athlete.scores[1].scoredetails) ? athlete.scores[1].scoredetails.time : null;
-  var _wod2IsScale = Boolean(athlete.scores[1].scoredisplay.indexOf('- s') != -1);
+  var _wod2IsScale = Boolean(_wod2Display.indexOf('- s') != -1);
 
   var _wod3Display = athlete.scores[2].scoredisplay;
-  var _wod3Score = getScoreWithTimeCap(athlete.scores[2].scoredisplay, 216);
+  var _wod3Score = getScoreWithTimeCap(_wod3Display, 216);
   var _wod3TieBreak = (athlete.scores[2].scoredetails) ? athlete.scores[2].scoredetails.time : null;
-  var _wod3IsScale = Boolean(athlete.scores[2].scoredisplay.indexOf('- s') != -1);
+  var _wod3IsScale = Boolean(_wod3Display.indexOf('- s') != -1);
 
   var _wod4Display = athlete.scores[3].scoredisplay;
-  var _wod4Score = Number(athlete.scores[3].scoredisplay.replace(' reps', '').replace(' - s', ''));
+  var _wod4Score = Number(_wod4Display.replace(' reps', '').replace(' - s', ''));
   var _wod4TieBreak = (athlete.scores[3].scoredetails) ? athlete.scores[3].scoredetails.time : null;
-  var _wod4IsScale = Boolean(athlete.scores[3].scoredisplay.indexOf('- s') != -1);
+  var _wod4IsScale = Boolean(_wod4Display.indexOf('- s') != -1);
+
+  var athleteFields = {
+    name: athlete.name, affiliate: affiliate.name, sex: _sex,
+    wod1Display: _wod1Display, wod1Score: _wod1Score, wod1TieBreak: _wod1TieBreak, wod1IsScale: _wod1IsScale, wod1Rank: -1,
+    wod2Display: _wod2Display, wod2Score: _wod2Score, wod2TieBreak: _wod2TieBreak, wod2IsScale: _wod2IsScale, wod2Rank: -1,
+    wod3Display: _wod3Display, wod3Score: _wod3Score, wod3TieBreak: _wod3TieBreak, wod3IsScale: _wod3IsScale, wod3Rank: -1,
+    wod4Display: _wod4Display, wod4Score: _wod4Score, wod4TieBreak: _wod4TieBreak, wod4IsScale: _wod4IsScale, wod4Rank: -1
+  };
 
   Athlete.find({id: athlete.userid}).exec(function(err, athletes) {
     if (err) console.log(err);
@@ -205,15 +237,7 @@ function createAthlete(athlete, affiliate) {
       async.eachSeries(athletes, function(athlete, callback){
         console.log("Athlete already exists: " + athlete.name + "\nUpdating athlete...");
 
-        var fields2Update = {
-          name: athlete.name, affiliate: affiliate.name, sex: _sex,
-          wod1Display: _wod1Display, wod1Score: _wod1Score, wod1TieBreak: _wod1TieBreak, wod1IsScale: _wod1IsScale, wod1Rank: -1,
-          wod2Display: _wod2Display, wod2Score: _wod2Score, wod2TieBreak: _wod2TieBreak, wod2IsScale: _wod2IsScale, wod2Rank: -1,
-          wod3Display: _wod3Display, wod3Score: _wod3Score, wod3TieBreak: _wod3TieBreak, wod3IsScale: _wod3IsScale, wod3Rank: -1,
-          wod4Display: _wod4Display, wod4Score: _wod4Score, wod4TieBreak: _wod4TieBreak, wod4IsScale: _wod4IsScale, wod4Rank: -1
-        };
-
-        Athlete.update({id: athlete.id}, {$set: fields2Update}, function(err, result) {
+        Athlete.update({id: athlete.id}, {$set: athleteFields}, function(err, result) {
           if (err) console.log(err);
 
           console.log("Athlete updated with sucess!");
@@ -224,13 +248,8 @@ function createAthlete(athlete, affiliate) {
     } else {
       console.log("Athlete not exists...\n Saving new athlete...");
 
-      var newAthlete = new Athlete({
-        id: athlete.userid, name: athlete.name, affiliate: affiliate.name, sex: _sex,
-        wod1Display: _wod1Display, wod1Score: _wod1Score, wod1TieBreak: _wod1TieBreak, wod1IsScale: _wod1IsScale, wod1Rank: -1,
-        wod2Display: _wod2Display, wod2Score: _wod2Score, wod2TieBreak: _wod2TieBreak, wod2IsScale: _wod2IsScale, wod2Rank: -1,
-        wod3Display: _wod3Display, wod3Score: _wod3Score, wod3TieBreak: _wod3TieBreak, wod3IsScale: _wod3IsScale, wod3Rank: -1,
-        wod4Display: _wod4Display, wod4Score: _wod4Score, wod4TieBreak: _wod4TieBreak, wod4IsScale: _wod4IsScale, wod4Rank: -1
-      });
+      athleteFields.id = athlete.userid;
+      var newAthlete = new Athlete(athleteFields);
 
       newAthlete.save(function(err, athleteResult) {
         if (err) console.log(err);
