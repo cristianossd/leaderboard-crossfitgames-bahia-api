@@ -61,6 +61,15 @@ module.exports.createRanking = function(req, res, next) {
     score: 'wod4Score', tiebreak: 'wod4TieBreak', rank: 'wod4Rank'
   });
 
+  /* Men wod5 */
+  createAthleteRank({
+    rx: {sex: 'm', wod5IsScale: false, wod5TieBreak: {$ne:null}},
+    scale: {sex: 'm', wod5IsScale: true, wod5TieBreak: {$ne:null}},
+    not_performed: {sex: 'm', wod5TieBreak: null},
+    sort: {wod5Score: -1, wod5TieBreak: 1},
+    score: 'wod5Score', tiebreak: 'wod5TieBreak', rank: 'wod5Rank'
+  });
+
   /* Women wod1 */
   createAthleteRank({
     rx: {sex: 'f', wod1IsScale: false, wod1TieBreak: {$ne:null}},
@@ -97,6 +106,15 @@ module.exports.createRanking = function(req, res, next) {
     score: 'wod4Score', tiebreak: 'wod4TieBreak', rank: 'wod4Rank'
   });
 
+  /* Women wod5 */
+  createAthleteRank({
+    rx: {sex: 'f', wod5IsScale: false, wod5TieBreak: {$ne:null}},
+    scale: {sex: 'f', wod5IsScale: true, wod5TieBreak: {$ne:null}},
+    not_performed: {sex: 'f', wod5TieBreak: null},
+    sort: {wod5Score: -1, wod5TieBreak: 1},
+    score: 'wod5Score', tiebreak: 'wod5TieBreak', rank: 'wod5Rank'
+  });
+
   res.sendStatus(200);
 };
 
@@ -105,9 +123,9 @@ module.exports.get = function(req, res, next) {
     console.log("Total of athletes to get the overallScore updated: " + athletes.length);
 
     async.eachSeries(athletes, function(athlete, callback) {
-      _overallScore = athlete.wod1Rank + athlete.wod2Rank + athlete.wod3Rank + athlete.wod4Rank;
+      _overallScore = athlete.wod1Rank + athlete.wod2Rank + athlete.wod3Rank + athlete.wod4Rank + athlete.wod5Rank;
 
-      if (athlete.wod1Rank == -1 || athlete.wod2Rank == -1 || athlete.wod3Rank == -1 || athlete.wod4Rank == -1) {
+      if (athlete.wod1Rank == -1 || athlete.wod2Rank == -1 || athlete.wod3Rank == -1 || athlete.wod4Rank == -1  || athlete.wod5Rank == -1) {
         console.log("Athlete with overallScore not updated:");
         console.log(athlete);
       } else {
@@ -222,12 +240,18 @@ function createAthlete(athlete, affiliate) {
   var _wod4TieBreak = (athlete.scores[3].scoredetails) ? athlete.scores[3].scoredetails.time : null;
   var _wod4IsScale = Boolean(_wod4Display.indexOf('- s') != -1);
 
+  var _wod5Display = athlete.scores[4].scoredisplay;
+  var _wod5Score = getScoreWithTimeCap(_wod5Display, 430);
+  var _wod5TieBreak = (athlete.scores[4].scoredetails) ? athlete.scores[4].scoredetails.time : null;
+  var _wod5IsScale = Boolean(_wod4Display.indexOf('- s') != -1);
+
   var athleteFields = {
     name: athlete.name, affiliate: affiliate.name, sex: _sex,
     wod1Display: _wod1Display, wod1Score: _wod1Score, wod1TieBreak: _wod1TieBreak, wod1IsScale: _wod1IsScale, wod1Rank: -1,
     wod2Display: _wod2Display, wod2Score: _wod2Score, wod2TieBreak: _wod2TieBreak, wod2IsScale: _wod2IsScale, wod2Rank: -1,
     wod3Display: _wod3Display, wod3Score: _wod3Score, wod3TieBreak: _wod3TieBreak, wod3IsScale: _wod3IsScale, wod3Rank: -1,
-    wod4Display: _wod4Display, wod4Score: _wod4Score, wod4TieBreak: _wod4TieBreak, wod4IsScale: _wod4IsScale, wod4Rank: -1
+    wod4Display: _wod4Display, wod4Score: _wod4Score, wod4TieBreak: _wod4TieBreak, wod4IsScale: _wod4IsScale, wod4Rank: -1,
+    wod5Display: _wod5Display, wod5Score: _wod5Score, wod5TieBreak: _wod5TieBreak, wod5IsScale: _wod5IsScale, wod5Rank: -1
   };
 
   Athlete.find({id: athlete.userid}).exec(function(err, athletes) {
@@ -305,19 +329,21 @@ function generateJSON() {
     wod3Display: 1,
     wod3Rank: 1,
     wod4Display: 1,
-    wod4Rank: 1
+    wod4Rank: 1,
+    wod5Display: 1,
+    wod5Rank: 1
   };
 
   Athlete.find({sex: 'm'}, attrs).sort({overallScore: 1}).exec(function(err, athletes) {
     var json = JSON.stringify(athletes);
-    fs.writeFile('men_leaderboard.json', json, 'utf-8', function(err) {
+    fs.writeFile('dist/men_leaderboard.json', json, 'utf-8', function(err) {
       if (err) throw err;
     });
   });
 
   Athlete.find({sex: 'f'}, attrs).sort({overallScore: 1}).exec(function(err, athletes) {
     var json = JSON.stringify(athletes);
-    fs.writeFile('women_leaderboard.json', json, 'utf-8', function(err) {
+    fs.writeFile('dist/women_leaderboard.json', json, 'utf-8', function(err) {
       if (err) throw err;
     });
   });
