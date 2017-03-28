@@ -210,7 +210,7 @@ function saveResults(allAthletes, paramObj) {
       if (err) console.log(err);
 
       console.log('Updated rank of ' + athlete.name);
-      console.log('New rank: ' + athlete[paramObj.rank]);
+      console.log('New rank: ' + newRank);
       callback();
     });
   });
@@ -243,7 +243,7 @@ function createAthlete(athlete, affiliate) {
   var _wod5Display = athlete.scores[4].scoredisplay;
   var _wod5Score = getScoreWithTimeCap(_wod5Display, 430);
   var _wod5TieBreak = (athlete.scores[4].scoredetails) ? athlete.scores[4].scoredetails.time : null;
-  var _wod5IsScale = Boolean(_wod4Display.indexOf('- s') != -1);
+  var _wod5IsScale = Boolean(_wod5Display.indexOf('- s') != -1);
 
   var athleteFields = {
     name: athlete.name, affiliate: affiliate.name, sex: _sex,
